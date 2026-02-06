@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<title>AR Multiple Markers</title>
@@ -15,36 +16,32 @@
 	<script src="threex/threex-armarkercontrols.js"></script>
 </head>
 
-<body style="margin: 0px; overflow: hidden; font-family: Monospace;">
+<body style="margin: 0; overflow: hidden; font-family: monospace;">
 
 <script>
+let scene, camera, renderer;
+let arToolkitSource, arToolkitContext;
+let markerNames, markerArray;
+let keyboard;
 
-var scene, camera, renderer, clock;
-var arToolkitSource, arToolkitContext;
-var markerNames, markerArray;
-var keyboard;
-
-initialize();
+init();
 animate();
 
-function initialize()
-{
+function init() {
+
 	// ---------- ESCENA ----------
 	scene = new THREE.Scene();
 
-	let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
+	let ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
 	scene.add(ambientLight);
 
 	camera = new THREE.Camera();
 	scene.add(camera);
 
-	let pointLight = new THREE.PointLight(0xffffff, 1, 50);
+	let pointLight = new THREE.PointLight(0xffffff, 1);
 	camera.add(pointLight);
 
-	renderer = new THREE.WebGLRenderer({
-		antialias: true,
-		alpha: true
-	});
+	renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 	renderer.setClearColor(new THREE.Color('lightgrey'), 0);
 	renderer.setSize(800, 600);
 	renderer.domElement.style.position = 'absolute';
@@ -52,54 +49,48 @@ function initialize()
 	renderer.domElement.style.left = '0px';
 	document.body.appendChild(renderer.domElement);
 
-	clock = new THREE.Clock();
 	keyboard = new Keyboard();
 
 	// ---------- AR TOOLKIT SOURCE ----------
 	arToolkitSource = new THREEx.ArToolkitSource({
-		sourceType: 'webcam',
+		sourceType: 'webcam'
 	});
 
-	function onResize()
-	{
+	arToolkitSource.init(onResize);
+	window.addEventListener('resize', onResize);
+
+	function onResize() {
 		arToolkitSource.onResize();
 		arToolkitSource.copySizeTo(renderer.domElement);
-		if (arToolkitContext.arController !== null)
-		{
+		if (arToolkitContext.arController !== null) {
 			arToolkitSource.copySizeTo(arToolkitContext.arController.canvas);
 		}
 	}
-
-	arToolkitSource.init(function () {
-		onResize();
-	});
-
-	window.addEventListener('resize', onResize);
 
 	// ---------- AR TOOLKIT CONTEXT ----------
 	arToolkitContext = new THREEx.ArToolkitContext({
 		cameraParametersUrl: 'data/camera_para.dat',
 		detectionMode: 'mono',
-		maxDetectionRate: 30,
+		maxDetectionRate: 30
 	});
 
-	arToolkitContext.init(function () {
+	arToolkitContext.init(() => {
 		camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
 	});
 
 	// ---------- MARCADORES ----------
-	markerNames = ["letterA", "letterB", "letterC"];
+	markerNames = ['letterA', 'letterB', 'letterC'];
 	markerArray = [];
 
-	for (let i = 0; i < markerNames.length; i++)
-	{
+	for (let i = 0; i < markerNames.length; i++) {
+
 		let markerRoot = new THREE.Group();
 		scene.add(markerRoot);
 		markerArray.push(markerRoot);
 
 		new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
 			type: 'pattern',
-			patternUrl: "data/" + markerNames[i] + ".patt",
+			patternUrl: 'data/' + markerNames[i] + '.patt'
 		});
 
 		let markerGroup = new THREE.Group();
@@ -110,62 +101,59 @@ function initialize()
 
 	// letterA → ESFERA AZUL
 	let sphere = new THREE.Mesh(
-		new THREE.SphereGeometry(1, 32, 32),
+		new THREE.SphereGeometry(0.5, 32, 32),
 		new THREE.MeshLambertMaterial({ color: 0x0000ff })
 	);
-	sphere.position.y = 1;
+	sphere.position.y = 0.5;
 	markerArray[0].children[0].add(sphere);
 
 	// letterB → CUBO VERDE
 	let cube = new THREE.Mesh(
-		new THREE.BoxGeometry(1.5, 1.5, 1.5),
+		new THREE.BoxGeometry(0.8, 0.8, 0.8),
 		new THREE.MeshLambertMaterial({ color: 0x00ff00 })
 	);
-	cube.position.y = 1;
+	cube.position.y = 0.4;
 	markerArray[1].children[0].add(cube);
 
 	// letterC → CILINDRO ROJO
 	let cylinder = new THREE.Mesh(
-		new THREE.CylinderGeometry(0.8, 0.8, 2, 32),
+		new THREE.CylinderGeometry(0.3, 0.3, 1, 32),
 		new THREE.MeshLambertMaterial({ color: 0xff0000 })
 	);
-	cylinder.position.y = 1;
+	cylinder.position.y = 0.5;
 	markerArray[2].children[0].add(cylinder);
 }
 
-function update()
-{
+function update() {
+
 	keyboard.update();
 
-	// Animación simple
-	if (markerArray[0].visible) {
-		markerArray[0].children[0].rotation.y += 0.01;
-	}
-	if (markerArray[1].visible) {
-		markerArray[1].children[0].rotation.y += 0.01;
-	}
-	if (markerArray[2].visible) {
-		markerArray[2].children[0].rotation.y += 0.01;
+	// 🔑 ACTUALIZACIÓN CORRECTA DEL TRACKING
+	if (arToolkitSource.ready) {
+		arToolkitContext.update(arToolkitSource.domElement);
 	}
 
-	if (arToolkitSource.ready !== false)
-	{
-		arToolkitContext.update(arToolkitSource.domElement);
+	// Animaciones simples
+	if (markerArray[0].visible) {
+		markerArray[0].children[0].rotation.y += 0.02;
+	}
+	if (markerArray[1].visible) {
+		markerArray[1].children[0].rotation.y += 0.02;
+	}
+	if (markerArray[2].visible) {
+		markerArray[2].children[0].rotation.y += 0.02;
 	}
 }
 
-function render()
-{
+function render() {
 	renderer.render(scene, camera);
 }
 
-function animate()
-{
+function animate() {
 	requestAnimationFrame(animate);
 	update();
 	render();
 }
-
 </script>
 
 </body>
