@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<title>AR Multiple Markers GLB</title>
+
+<!-- Three.js compatible con AR.js clásico -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+
+<!-- GLTFLoader -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+<!-- ARToolkit clásico -->
+<script src="jsartoolkit5/artoolkit.min.js"></script>
+<script src="jsartoolkit5/artoolkit.api.js"></script>
+
+<script src="threex/threex-artoolkitsource.js"></script>
+<script src="threex/threex-artoolkitcontext.js"></script>
+<script src="threex/threex-arbasecontrols.js"></script>
+<script src="threex/threex-armarkercontrols.js"></script>
+</head>
+
+<body style="margin: 0; overflow: hidden;">
+
+<script>
+let scene, camera, renderer;
+let arToolkitSource, arToolkitContext;
+let markerArray = [];
+let loader = new THREE.GLTFLoader();
+
+init();
+animate();
+
+function init() {
+
+    // ESCENA
+    scene = new THREE.Scene();
+
+    camera = new THREE.Camera();
+    scene.add(camera);
+
+    let light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+    scene.add(light);
+
+    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // AR SOURCE
+    arToolkitSource = new THREEx.ArToolkitSource({ sourceType: 'webcam' });
+
+    arToolkitSource.init(onResize);
+    window.addEventListener('resize', onResize);
+
+    function onResize() {
+        arToolkitSource.onResize();
+        arToolkitSource.copySizeTo(renderer.domElement);
+        if (arToolkitContext.arController !== null)
+            arToolkitSource.copySizeTo(arToolkitContext.arController.canvas);
+    }
+
+    // AR CONTEXT
+    arToolkitContext = new THREEx.ArToolkitContext({
+        cameraParametersUrl: 'data/camera_para.dat',
+        detectionMode: 'mono'
+    });
+
+    arToolkitContext.init(function () {
+        camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+    });
+
+    // MARKERS
+    let markerNames = ['letterA', 'letterB', 'letterC'];
+
+    for (let i = 0; i < markerNames.length; i++) {
+
+        let markerRoot = new THREE.Group();
+        scene.add(markerRoot);
+        markerArray.push(markerRoot);
+
+        new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+            type: 'pattern',
+            patternUrl: 'data/' + markerNames[i] + '.patt'
+        });
+
+        let group = new THREE.Group();
+        markerRoot.add(group);
+    }
+
+    // ===== MODELO A =====
+    loader.load('models/honguito_creepy.glb', function(gltf) {
+        let model = gltf.scene;
+
+        model.scale.set(0.3, 0.3, 0.3);
+        model.position.y = 3;
+        model.position.z = 0.5;
+
+        // ROTACIÓN FIJA (reposicionar)
+        model.rotation.set(Math.PI/2, 0, Math.PI); // gira 180° en Y
+
+        markerArray[0].children[0].add(model);
+        console.log("Modelo A cargado");
+    });
+
+    // ===== MODELO B =====
+    loader.load('models/tanjiro_funko_pop.glb', function(gltf) {
+        let model = gltf.scene;
+
+        model.scale.set(0.2, 0.2, 0.2);
+        model.position.y = 3;
+        model.position.z = 0;
+
+
+        // Acostado 90° en X
+        model.rotation.set(Math.PI/2, 0, Math.PI);
+
+        markerArray[1].children[0].add(model);
+        console.log("Modelo B cargado");
+    });
+
+    // ===== MODELO C =====
+    loader.load('models/hornet.glb', function(gltf) {
+        let model = gltf.scene;
+
+        model.scale.set(0.5, 0.5, 0.5);
+        model.position.y = 3;
+        model.position.z = 0.5;
+
+        // Girar 90° en Z
+        model.rotation.set(Math.PI/2, 0, Math.PI);
+
+        markerArray[2].children[0].add(model);
+        console.log("Modelo C cargado");
+    });
+}
+
+// UPDATE
+function update() {
+    if (arToolkitSource.ready)
+        arToolkitContext.update(arToolkitSource.domElement);
+
+    // (Aquí NO hay rotación → solo tracking)
+}
+
+function render() {
+    renderer.render(scene, camera);
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    update();
+    render();
+}
+</script>
+
+</body>
+</html>
