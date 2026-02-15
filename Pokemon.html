@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Pokemon GO Real AR</title>
+<style>
+  body { margin:0; overflow:hidden; }
+  #ui {
+    position: fixed;
+    top:10px;
+    left:10px;
+    color:white;
+    background:black;
+    padding:10px;
+    font-family: monospace;
+  }
+</style>
+</head>
+<body>
+<div id="ui">Toca la pantalla para colocar el modelo</div>
+
+<script type="module">
+
+import * as THREE from "https://unpkg.com/three@0.158.0/build/three.module.js";
+import { GLTFLoader } from "https://unpkg.com/three@0.158.0/examples/jsm/loaders/GLTFLoader.js";
+import { ARButton } from "https://unpkg.com/three@0.158.0/examples/jsm/webxr/ARButton.js";
+
+let scene, camera, renderer;
+let controller;
+let reticle;
+let model;
+
+init();
+animate();
+
+function init() {
+
+  scene = new THREE.Scene();
+
+  camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 0.01, 20);
+
+  renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.xr.enabled = true;
+  document.body.appendChild(renderer.domElement);
+
+  document.body.appendChild(ARButton.createButton(renderer, { requiredFeatures: ['hit-test'] }));
+
+  const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+  scene.add(light);
+
+  // Reticle (where model will spawn)
+  const ringGeo = new THREE.RingGeometry(0.1, 0.15, 32).rotateX(-Math.PI/2);
+  const ringMat = new THREE.MeshBasicMaterial({ color:0x00ff00 });
+  reticle = new THREE.Mesh(ringGeo, ringMat);
+  reticle.matrixAutoUpdate = false;
+  reticle.visible = false;
+  scene.add(reticle);
+
+  // Load model
+  const loader = new GLTFLoader();
+  loader.load("./models/hornet.glb", gltf => {
+    model = gltf.scene;
+    console.log("Model loaded");
+  });
+
+  controller = renderer.xr.getController(0);
+  controller.addEventListener("select", onSelect);
+  scene.add(controller);
+
+  window.addEventListener("resize", ()=>{
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+}
+
+function onSelect() {
+  if (!reticle.visible || !model) return;
+
+  const clone = model.clone();
+  clone.position.setFromMatrixPosition(reticle.matrix);
+  clone.scale.set(0.01,0.01,0.01);
+  scene.add(clone);
+
+  const targetScale = Math.random()*0.5 + 0.2;
+  animateScale(clone, targetScale);
+}
+
+function animateScale(obj, target) {
+  let s = 0.01;
+  function grow() {
+    s += (target - s) * 0.15;
+    obj.scale.set(s,s,s);
+    if (s < target*0.99) requestAnimationFrame(grow);
+  }
+  grow();
+}
+
+function animate() {
+  renderer.setAnimationLoop(render);
+}
+
+let hitTestSource = null;
+let hitTestSourceRequested = false;
+
+function render(timestamp, frame) {
+  if (frame) {
+    const referenceSpace = renderer.xr.getReferenceSpace();
+    const session = renderer.xr.getSession();
+
+    if (!hitTestSourceRequested) {
+      session.requestReferenceSpace('viewer').then(space => {
+        session.requestHitTestSource({ space }).then(source => {
+          hitTestSource = source;
+        });
+      });
+
+      session.addEventListener('end', () => {
+        hitTestSourceRequested = false;
+        hitTestSource = null;
+      });
+
+      hitTestSourceRequested = true;
+    }
+
+    if (hitTestSource) {
+      const hitTestResults = frame.getHitTestResults(hitTestSource);
+      if (hitTestResults.length) {
+        const hit = hitTestResults[0];
+        const pose = hit.getPose(referenceSpace);
+
+        reticle.visible = true;
+        reticle.matrix.fromArray(pose.transform.matrix);
+      } else {
+        reticle.visible = false;
+      }
+    }
+  }
+
+  renderer.render(scene, camera);
+}
+
+</script>
+</body>
+</html>
