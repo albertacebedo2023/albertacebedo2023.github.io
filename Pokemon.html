@@ -61,7 +61,7 @@ function init() {
 
   // Cargar modelo
   const loader = new THREE.GLTFLoader();
-  loader.load("./models/pokemon.glb", gltf => {
+  loader.load("./models/hornet.glb", gltf => {
     model = gltf.scene;
     model.scale.set(0.5,0.5,0.5);
     console.log("Modelo cargado");
