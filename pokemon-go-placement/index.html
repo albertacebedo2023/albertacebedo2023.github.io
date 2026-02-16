@@ -1,12 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+<style>
+body { margin:0; overflow:hidden; background:black; }
+#btn { position:fixed; top:10px; left:10px; z-index:999; padding:10px; font-size:16px; }
+</style>
+</head>
+
 <body>
-<button onclick="cam()">CAM</button>
+
+<button id="btn">Iniciar Cámara</button>
+
 <script>
-async function cam(){
-  const stream = await navigator.mediaDevices.getUserMedia({video:true});
-  alert("CAMARA OK");
+let scene, camera, renderer, modelAsset;
+let objects = [];
+const MAX_OBJECTS = 5;
+
+// ESCENA
+scene = new THREE.Scene();
+
+// CÁMARA
+camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 0.01, 100);
+camera.position.set(0, 1.6, 3); // altura humano
+
+// RENDER
+renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// LUCES
+scene.add(new THREE.AmbientLight(0xffffff, 2));
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(5,5,5);
+scene.add(light);
+
+// CARGAR MODELO
+const loader = new THREE.GLTFLoader();
+loader.load("hornet.glb",
+ (gltf)=>{
+    modelAsset = gltf.scene;
+    modelAsset.scale.set(0.5,0.5,0.5); // tamaño visible
+    console.log("Modelo cargado");
+ },
+ undefined,
+ ()=>{
+    console.log("Fallback cube");
+    modelAsset = new THREE.Mesh(
+      new THREE.BoxGeometry(0.5,0.5,0.5),
+      new THREE.MeshNormalMaterial()
+    );
+ }
+);
+
+// RAYCAST TOQUE
+window.addEventListener("pointerdown",(e)=>{
+  if(!modelAsset) return;
+
+  const mouse = new THREE.Vector2(
+    (e.clientX / window.innerWidth) * 2 - 1,
+    -(e.clientY / window.innerHeight) * 2 + 1
+  );
+
+  const raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouse, camera);
+
+  const target = new THREE.Vector3();
+  raycaster.ray.at(2, target); // 2 metros
+
+  if(objects.length >= MAX_OBJECTS){
+    scene.remove(objects.shift());
+  }
+
+  const obj = modelAsset.clone();
+  obj.position.copy(target);
+  scene.add(obj);
+  objects.push(obj);
+});
+
+// CÁMARA REAL
+async function setupCamera(){
+  const video = document.createElement("video");
+  video.setAttribute("playsinline", "");
+  video.muted = true;
+  video.autoplay = true;
+
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: { exact: "environment" } },
+    audio: false
+  });
+
+  video.srcObject = stream;
+  await video.play();
+
+  const texture = new THREE.VideoTexture(video);
+  scene.background = texture;
 }
+
+// BOTÓN PARA ACTIVAR
+document.getElementById("btn").onclick = ()=>{
+  setupCamera();
+  document.getElementById("btn").style.display="none";
+};
+
+// LOOP
+function animate(){
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+}
+animate();
 </script>
+
 </body>
 </html>
