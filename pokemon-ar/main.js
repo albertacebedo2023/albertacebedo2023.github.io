@@ -42,7 +42,7 @@ function init() {
 
   // Cargar modelo 3D
   const loader = new GLTFLoader();
-  loader.load("model.glb", (gltf)=>{
+  loader.load("hornet.glb", (gltf)=>{
     model = gltf.scene;
     model.scale.set(0.2,0.2,0.2);
   });
@@ -111,3 +111,4 @@ function render(timestamp, frame) {
 
   renderer.render(scene, camera);
 }
+
