@@ -32,7 +32,7 @@ scene.add(plane);
 // 5. Cargar modelo
 let model;
 const loader = new GLTFLoader();
-loader.load("model.glb", gltf => {
+loader.load("hornet.glb", gltf => {
   model = gltf.scene;
   model.scale.set(0.5,0.5,0.5);
 });
@@ -63,5 +63,6 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
+
 
 
