@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Test Cámara</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  margin: 0;
+  background: black;
+}
+video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+</style>
+</head>
+
+<body>
+
+<video id="v" autoplay playsinline></video>
+
+<script>
+navigator.mediaDevices.getUserMedia({
+  video: { facingMode: "environment" }, 
+  audio: false
+})
+.then(stream => {
+  document.getElementById("v").srcObject = stream;
+})
+.catch(e => {
+  alert("ERROR CAMARA: " + e);
+  console.error(e);
+});
+</script>
+
+</body>
+</html>
