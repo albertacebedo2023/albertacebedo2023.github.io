@@ -5,10 +5,9 @@
 <title>Pokémon AR Real</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Three.js -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-<!-- GLTF Loader -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/GLTFLoader.js"></script>
+<!-- Three.js compatible -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
 
 <style>
 body { margin: 0; overflow: hidden; }
@@ -28,46 +27,44 @@ body { margin: 0; overflow: hidden; }
 <div id="msg">Toca la pantalla para colocar el Pokémon</div>
 
 <script>
-let scene, camera, renderer, model;
+let scene, camera, renderer, model, ground;
 
 init();
 animate();
 
 function init() {
 
-  // Escena
   scene = new THREE.Scene();
 
-  // Cámara
   camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
   camera.position.set(0, 1.6, 3);
 
-  // Render
-  renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // Luz
   const light = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
   scene.add(light);
 
-  // Piso invisible
-  const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(100,100),
-    new THREE.MeshBasicMaterial({visible:false})
+  ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(100, 100),
+    new THREE.MeshBasicMaterial({ visible: false })
   );
-  ground.rotation.x = -Math.PI/2;
+  ground.rotation.x = -Math.PI / 2;
   scene.add(ground);
 
-  // Cargar modelo
   const loader = new THREE.GLTFLoader();
-  loader.load("./models/hornet.glb", gltf => {
-    model = gltf.scene;
-    model.scale.set(0.5,0.5,0.5);
-    console.log("Modelo cargado");
-  }, undefined, e => console.error(e));
+  loader.load(
+    "./models/hornet.glb",   // 👈 CAMBIA SI USAS OTRO
+    gltf => {
+      model = gltf.scene;
+      model.scale.set(0.5, 0.5, 0.5);
+      console.log("Modelo cargado correctamente");
+    },
+    undefined,
+    err => console.error(err)
+  );
 
-  // Tap para colocar
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
 
@@ -83,12 +80,12 @@ function init() {
     if (hits.length > 0) {
       model.position.copy(hits[0].point);
       scene.add(model);
-      console.log("Pokemon colocado");
+      console.log("Modelo colocado");
     }
   });
 
   window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
