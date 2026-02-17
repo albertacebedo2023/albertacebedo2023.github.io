@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    
+    <style>
+      body { margin: 0; overflow: hidden; background-color: #000; }
+      canvas { display: block; }
+    </style>
+  </head>
+  <body>
+    <script>
+      let scene, camera, renderer, modelAsset;
+      let objects = [];
+      const MAX_OBJECTS = 6;
+
+      // 1. INICIALIZACIÓN
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 100);
+      
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      // Luces potentes (Ambiental + Frontal)
+      scene.add(new THREE.AmbientLight(0xffffff, 1.5));
+      const light = new THREE.DirectionalLight(0xffffff, 1);
+      light.position.set(0, 5, 5);
+      scene.add(light);
+
+      // 2. CARGAR EL TEPIG
+      const loader = new THREE.GLTFLoader();
+      loader.load('tanjiro_funko_pop.glb', 
+        (gltf) => {1
+          modelAsset = gltf.scene;
+          // Prueba con 0.01 si 0.1 seguía siendo enorme
+          modelAsset.scale.set(0.05, 0.05, 0.05); // Un poco más grande para que se vea
+          console.log("Modelo cargado con éxito");
+        }, 
+        undefined, 
+        (err) => {
+          console.error("Error con el .glb, usando cubo de respaldo");
+          // Si falla el modelo, creamos un cubo para no quedarnos sin nada
+          const geom = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+          const mat = new THREE.MeshNormalMaterial();
+          modelAsset = new THREE.Mesh(geom, mat);
+        }
+      );
+
+      // 3. EVENTO DE CLIC
+      window.addEventListener("pointerdown", (event) => {
+        if (!modelAsset) return;
+
+        const mouse = new THREE.Vector2(
+          (event.clientX / window.innerWidth) * 2 - 1,
+          -(event.clientY / window.innerHeight) * 2 + 1
+        );
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+
+        const targetPoint = new THREE.Vector3();
+        raycaster.ray.at(4, targetPoint); // 4 metros de distancia
+
+        if (objects.length >= MAX_OBJECTS) {
+          scene.remove(objects.shift());
+        }
+
+        const newObj = modelAsset.clone();
+        newObj.position.copy(targetPoint);
+        scene.add(newObj);
+        objects.push(newObj);
+      });
+
+      // 4. CONFIGURACIÓN CÁMARA (WEBCAM)
+      async function setupCamera() {
+        try {
+          const video = document.createElement('video');
+          const stream = await navigator.mediaDevices.getUserMedia({ 
+            video: { facingMode: "environment" } 
+          });
+          video.srcObject = stream;
+          video.setAttribute("playsinline", true); // Requerido para iOS
+          video.play();
+          
+          const texture = new THREE.VideoTexture(video);
+          scene.background = texture;
+        } catch (e) {
+          alert("No se pudo acceder a la cámara. Revisa los permisos.");
+        }
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+
+      setupCamera();
+      animate();
+    </script>
+  </body>
+</html>
