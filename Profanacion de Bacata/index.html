@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  
+  </head>
+  <body>
+    <a-scene mindar-image="imageTargetSrc: targets4.mind; maxTrack: 9" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">      <a-assets>
+        <a-asset-item id="Rey Mago" src="humano.gltf"></a-asset-item>
+        <a-asset-item id="Huitaca" src="furro.gltf"></a-asset-item>
+        <a-asset-item id="Chaman Oscuro" src="ciclope.gltf"></a-asset-item>       
+        <a-asset-item id="Nivel1" src="Nivel 1.gltf"></a-asset-item> 
+        <a-asset-item id="Zemascua" src="Cuerpo_Picaro.gltf"></a-asset-item>
+        <a-asset-item id="Jeque" src="Cuerpo_Druida.gltf"></a-asset-item>   
+        <a-asset-item id="Saba" src="Cuerpo_Explorador.gltf"></a-asset-item>
+        <a-asset-item id="Guecha" src="Guecha.gltf"></a-asset-item>
+        <img id="JequeData" src="JequeData 3.png">
+        <img id="ZemascuaData" src="ZemascuaData 2.png">
+        <img id="SabaData" src="SabaData 3.png">
+        <img id="GuechaData" src="GuechaData 2.png">
+        <img id="ReyMagoBrujoData" src="ReyMagoBrujoData.png">  
+        <img id="HuitacaData" src="HuitacaData.png">  
+        <img id="ChamanOscuroData" src="ChamanOscuroData.png">              
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-gltf-model rotation="0 0 0 " position="0 0 0" scale="0.007 0.007 0.007" src="#Rey Mago" animation-mixer></a-gltf-model>
+        <a-plane  src="#ReyMagoBrujoData" position="0.5 0.3 0.1" rotation="0 0 0" width="0.5" height="0.7" material="side: double; transparent: true;"></a-plane>
+      </a-entity>
+      <a-entity mindar-image-target="targetIndex: 1">
+        <a-gltf-model rotation="0 0 0 " position="0 0 0" scale="0.006 0.006 0.006" src="#Huitaca" animation-mixer></a-gltf-model>
+        <a-plane  src="#HuitacaData" position="0.5 0.3 0.1" rotation="0 0 0" width="0.5" height="0.7" material="side: double; transparent: true;"></a-plane>
+      </a-entity>
+      <a-entity mindar-image-target="targetIndex: 2">
+        <a-gltf-model rotation="0 0 0 " position="0 0 0" scale="0.007 0.007 0.007" src="#Chaman Oscuro" animation-mixer></a-gltf-model>
+        <a-plane  src="#ChamanOscuroData" position="0.5 0.3 0.1" rotation="0 0 0" width="0.5" height="0.7" material="side: double; transparent: true;"></a-plane>
+      </a-entity>   
+      <a-entity mindar-image-target="targetIndex: 3">
+        <a-gltf-model rotation="0 0 0 " position="0 -0.25 0" scale="0.2 0.2 0.2" src="#Zemascua" animation-mixer></a-gltf-model>
+        <a-plane  src="#ZemascuaData" position="0.5 0.3 0.1" rotation="0 0 0" width="0.5" height="0.7" material="side: double; transparent: true;"></a-plane>
+      </a-entity>
+      <a-entity mindar-image-target="targetIndex: 4">
+        <a-gltf-model rotation="0 0 0 " position="0 -0.5 0" scale="0.6 0.6 0.6" src="#Guecha" animation-mixer></a-gltf-model>
+        <a-plane  src="#GuechaData" position="0.5 0.3 0.1" rotation="0 0 0" width="0.5" height="0.7" material="side: double; transparent: true;"></a-plane>
+      </a-entity>
+      <a-entity mindar-image-target="targetIndex: 5">
+        <a-gltf-model rotation="0 0 0 " position="0 -0.60 0" scale="0.8 0.8 0.8" src="#Saba" animation-mixer></a-gltf-model>
+        <a-plane  src="#SabaData" position="0.5 0.3 0.1" rotation="0 0 0" width="0.5" height="0.7" material="side: double; transparent: true;"></a-plane>
+      </a-entity>         
+      <a-entity mindar-image-target="targetIndex: 6">
+        <a-gltf-model rotation="0 0 0 " position="0 -0.60 0" scale="0.7 0.7 0.7" src="#Jeque" animation-mixer></a-gltf-model>
+        <a-plane  src="#JequeData" position="0.5 0.3 0.1" rotation="0 0 0" width="0.5" height="0.7" material="side: double; transparent: true;"></a-plane>
+      </a-entity>  
+      <a-entity mindar-image-target="targetIndex: 7">
+        <a-gltf-model rotation="80 0 0 " position="0 -0.25 0" scale="0.005 0.005 0.005" src="#Nivel1" animation-mixer></a-gltf-model>
+      </a-entity>                   
+    </a-scene>
+    
+
+  </body>
+</html>
