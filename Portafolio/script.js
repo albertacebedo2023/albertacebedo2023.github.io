@@ -31,9 +31,8 @@ const projects = {
       animacion: {
         title: "Animaciones",
         works: [
-          // Formato: [Título, Descripción/Técnica, Miniatura web, Enlace o ruta del video mp4 o embed]
-          ["Materia en movimiento", "Animación 3D", "../assets/Animaciones/Animacion1.png", "../assets/Animaciones/Animacion1.mp4"],
-          ["Materia en movimiento", "Animación 3D", "../assets/Animaciones/Animacion2.png", "../assets/Animaciones/Animacion2.mp4"]
+          ["Materia en movimiento", "Animación 3D", "../assets/Animaciones/Animacion1.png", "https://www.youtube.com/embed/HcgeKYI1ZE4"],
+          ["Materia en movimiento", "Animación 3D", "../assets/Animaciones/Animacion2.png","https://www.youtube.com/embed/GL2eROrhKvo?autoplay=1&rel=0"]
         ]
       }
     }
@@ -224,10 +223,14 @@ function updateLightboxContent() {
   else if (currentKey === '3d' && currentSubKey === 'animacion') {
     lightboxControlsGroup.style.display = 'none';
     lightboxMediaWrapper.innerHTML = `
-      <video controls autoplay style="max-width: 100%; max-height: 100%; border-radius: 6px;">
-        <source src="${work[3]}" type="video/mp4">
-        Tu navegador no soporta la reproducción de video.
-      </video>
+      <iframe
+          src="${work[3]}?autoplay=1&rel=0"
+          title="${work[0]}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+      </iframe>
     `;
   } 
   // Si estamos en la categoría Videojuegos
