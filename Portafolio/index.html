@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Portafolio de Ingeniería Multimedia — Albert Steve" />
+    <title>Albert Steve — Portafolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles_mejorado.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="site-header">
+      <div class="header-container">
+        <a class="brand-logo" href="#inicio">
+          <img class="logo-img" src="/assets/illustration/Athala.png" alt="Logo Athala" />
+          <span>Albert Steve</span>
+        </a>
+        <nav class="main-nav" aria-label="Navegación principal">
+          <a href="#proyectos" class="active">Proyectos</a>
+          <a href="sobre-mi.html">Sobre mí</a>
+        </nav>
+        <div class="header-actions">
+          <a href="mailto:asteve.4204@gmail.com?subject=Contacto%20desde%20Portafolio" class="btn-contact-primary">Hablemos</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="inicio">
+      <section class="hero container">
+        <p class="subtitle">Ingeniería Multimedia & Arte Digital</p>
+        <h1>Exploración visual, universos y código.</h1>
+      </section>
+
+      <section class="container" id="sobre-mi" style="margin-top: 20px; margin-bottom: 60px;">        
+        <div style="display: grid; grid-template-columns: 1.3fr 0.9fr; gap: 40px; align-items: stretch; flex-wrap: wrap;">
+          
+          <div style="background: var(--surface-card); border: 1px solid rgba(82, 230, 255, 0.25); border-radius: 12px; padding: 28px; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <h3 style="font-size: 1.75rem; color: var(--text-main); margin-bottom: 16px;">
+              Diseñador, artista visual y desarrollador interactivo.
+            </h3>
+            <p style="font-size: 1.12rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px;">
+              Encontré en la Ingeniería Multimedia el punto exacto donde confluyen mis pasiones: el arte, la narrativa y la tecnología. 
+              Me especializo en dar vida a universos y personajes a través de la <strong>ilustración, el concept art y el modelado 3D</strong> 
+              (con dominio en herramientas como Maya y Substance), enfocándome en la atmósfera y el volumen. 
+              <br><br>
+              Lo que me diferencia como artista es mi capacidad técnica: <strong>estoy certificado en Unity</strong>, lo que me permite no solo imaginar y diseñar mundos, sino también programar mecánicas y estructurar experiencias interactivas funcionales de principio a fin.
+            </p>
+            <a href="mailto:asteve.4204@gmail.com?subject=Contacto%20desde%20Portafolio" class="btn-contact-primary" style="display: inline-block; text-decoration: none; width: fit-content;">Hablemos →</a>
+          </div>
+
+          <div style="background: var(--surface-card); border: 1px solid rgba(82, 230, 255, 0.25); border-radius: 12px; padding: 28px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: center;">
+            <div style="position: absolute; top: -10px; right: 20px; background: var(--brand-accent-2); color: #060911; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase;">
+              Verificado
+            </div>
+            
+            <p style="font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--brand-accent-1); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;">
+              Credencial Oficial
+            </p>
+
+            <a href="https://www.credly.com/badges/e2106d67-d7fd-4d92-8740-70f9fa92f073/public_url" target="_blank" rel="noopener noreferrer" style="display:inline-block;transition:transform .2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+              <img src="/assets/PDF/EmblemaUnity.png" alt="Insignia Unity Certified User: VR Developer" style=" max-height:150px; width:auto; margin-bottom:16px; filter:drop-shadow(0 4px 12px rgba(0,0,0,.5));">
+            </a>
+
+            <h4 style="font-size: 1.1rem; color: var(--text-main); margin: 0 0 8px;">Unity Certified Developer</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0 0 20px;">
+              Competencia validada en desarrollo y lógica interactiva.
+            </p>
+
+            <a href="/assets/PDF/CertificadoUnity.jpg" target="_blank" rel="noopener noreferrer" style="font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--brand-accent-2); background: rgba(217, 255, 97, 0.1); padding: 10px 16px; border-radius: 6px; border: 1px solid rgba(217, 255, 97, 0.3); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: background 0.2s;" onmouseover="this.style.background='rgba(217, 255, 97, 0.2)';" onmouseout="this.style.background='rgba(217, 255, 97, 0.1)';">
+              Ver documento PDF ↗
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="container" id="proyectos">
+        <div class="projects-nav" id="projects-nav"></div>
+
+        <div class="gallery-box">
+          <div class="gallery-header">
+            <h2 id="gallery-title">Ilustración & personajes</h2>
+            <p id="gallery-description">Archivo visual de personajes, universos y narrativas ilustradas.</p>
+          </div>
+          <div id="sub-tabs-container"></div>
+          <div class="grid" id="gallery-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container">
+      <span>© 2026 Albert Steve</span>
+      <span>Diseñado y desarrollado con intención.</span>
+    </footer>
+
+    <dialog class="lightbox" id="lightbox">
+      <div class="lightbox-container">
+        <div class="lightbox-stage" id="lightbox-stage">
+          <div id="lightbox-media-wrapper" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+            <img id="lightbox-image" src="" alt="Ilustración ampliada" />
+          </div>
+          <div class="lightbox-controls" aria-label="Controles de zoom" id="lightbox-controls-group">
+            <button type="button" id="zoom-out" aria-label="Alejar">−</button>
+            <button type="button" id="zoom-reset" aria-label="Restablecer zoom">100%</button>
+            <button type="button" id="zoom-in" aria-label="Acercar">+</button>
+          </div>
+        </div>
+        <div class="lightbox-sidebar">
+          <div class="lightbox-topbar">
+            <span class="lightbox-kicker">Detalle de Obra</span>
+            <button class="lightbox-close" type="button" aria-label="Cerrar">×</button>
+          </div>
+          <div class="lightbox-info">
+            <h3 id="lightbox-title">Título de la obra</h3>
+            <p id="lightbox-meta">Técnica y categoría</p>
+            <p class="lightbox-desc">Exploración visual enfocada en la atmósfera, el volumen y la narrativa del personaje dentro del universo de Athala.</p>
+          </div>
+          <div class="lightbox-nav-footer">
+            <button type="button" id="previous-work">← Anterior</button>
+            <p id="image-counter">1 / 1</p>
+            <button type="button" id="next-work">Siguiente →</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>

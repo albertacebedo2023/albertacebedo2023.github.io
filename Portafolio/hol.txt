@@ -1,0 +1,9 @@
+      ["Operaciones especiales", "Concept art · Character Design", "../assets/illustration/soldado.webp"],
+      ["Vein", "Digital Art · Colaboración", "../assets/illustration/vein.webp"],
+      ["Santa Marta", "Digital Art · Colaboración", "../assets/illustration/santamarta.webp"],
+      ["Sarah", "Digital Art · Character Design", "../assets/illustration/sarah.webp"],
+      ["Fenamu", "Digital Art · Colaboraciòn", "../assets/illustration/fenamu.webp"],
+      ["Caine", "Digital Art · Fan Art", "../assets/illustration/caine.webp"],
+      ["Pokémon", "Fan art · Ilustración tradicional", "../assets/illustration/pokemon.webp"],
+      ["Irio", "Diseño de personaje", "../assets/illustration/irio.webp"],
+      ["Heimerdinger", "Fan art · Ilustración tradicional", "../assets/illustration/heimerdinger.webp"]

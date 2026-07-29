@@ -1,0 +1,537 @@
+/* ==========================================
+   PORTAFOLIO: Gris Oscuro Base + Acentos Fucsia Neón
+   ========================================== */
+:root {
+  --bg-main: #0f1115;         /* Tu fondo gris oscuro original y profundo */
+  --surface-card: #181b22;    /* Tarjetas en gris carbón diferenciado */
+  --surface-hover: #222630;   /* Hover más claro */
+  --text-main: #f3f4f6;       /* Texto blanco nítido */
+  --text-muted: #9ca3af;      /* Texto secundario gris */
+  --brand-accent-1: #ec4899;  /* Magenta / Fucsia Neón */
+  --brand-accent-2: #06b6d4;  /* Cian digital secundario */
+  --nav-link-active: var(--brand-accent-1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* Fondo gris oscuro con textura de líneas sutiles y destellos neón */
+body {
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--text-main);
+  font-family: Inter, Manrope, Arial, sans-serif;
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(236, 72, 153, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.08) 0%, transparent 45%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 24px 24px;
+  background-attachment: fixed;
+}
+
+.container { width: min(1160px, calc(100% - 48px)); margin: auto; }
+
+/* Header con efecto cristal oscuro y borde fucsia sutil */
+.site-header {
+  background: rgba(24, 27, 34, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0 24px;
+  margin-bottom: 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.header-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo */
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+}
+.logo-img {
+  height: 34px;
+  width: auto;
+  border-radius: 4px;
+}
+
+/* Navegación Principal */
+.main-nav { display: flex; gap: 32px; }
+.main-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 0;
+  transition: color 0.2s;
+}
+.main-nav a:hover, .main-nav a.active {
+  color: var(--nav-link-active);
+}
+
+/* Acciones de Usuario */
+.header-actions { display: flex; gap: 20px; align-items: center; }
+.btn-contact-primary {
+  background: var(--brand-accent-1);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+  border: none;
+  cursor: pointer;
+}
+.btn-contact-primary:hover {
+  background: #db2777;
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+}
+
+/* Sección Hero */
+.hero { padding: 20px 0 20px; }
+.hero h1 { font-size: clamp(2.2rem, 4vw, 3.2rem); line-height: 1.1; margin: 12px 0; letter-spacing: -1px; }
+.hero .subtitle { color: var(--brand-accent-1); font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+
+/* Subpestañas Duales (Modelos 3D vs Animaciones) */
+.sub-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 16px;
+}
+.sub-tab-btn {
+  background: var(--surface-hover);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.sub-tab-btn.is-active {
+  background: var(--brand-accent-1);
+  color: #fff;
+  border-color: var(--brand-accent-1);
+  box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
+}
+
+/* Pestañas Principales de Categorías */
+.projects-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin: 30px 0 24px;
+}
+
+.project-card {
+  background: var(--surface-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-main);
+  transition: all 0.3s ease;
+}
+
+.project-card:hover, .project-card.is-active {
+  border-color: var(--brand-accent-1);
+  background: var(--surface-hover);
+  transform: translateY(-2px);
+}
+.project-card h3 { margin: 0 0 8px; font-size: 17px; }
+.project-card p { margin: 0; color: var(--text-muted); font-size: 13px; line-height: 1.4; }
+
+/* Contenedor dinámico de obras */
+.gallery-box {
+  background: var(--surface-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 60px;
+}
+
+.gallery-header { margin-bottom: 24px; }
+.gallery-header h2 { margin: 0 0 6px; font-size: 22px; }
+.gallery-header p { color: var(--text-muted); margin: 0; font-size: 14px; }
+
+/* --- GRID DE PROYECTOS --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.work-card {
+  background: var(--surface-card);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  overflow:hidden;
+  cursor:pointer;
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  position:relative;
+}
+
+.work-card:hover {
+  transform:translateY(-8px);
+  border-color:var(--brand-accent-1);
+  box-shadow: 0 18px 40px rgba(0,0,0,.45), 0 0 25px rgba(236,72,153,.18);
+}
+
+.work-image{
+  width:100%;
+  height:240px;
+  overflow:hidden;
+  position:relative;
+  background:#090b0e;
+}
+
+.work-image::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.75),rgba(0,0,0,.15),transparent);
+  opacity:.35;
+  transition:.35s;
+  z-index:1;
+}
+
+.work-card:hover .work-image::before{
+  opacity:.9;
+}
+
+.work-image i {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(15, 17, 21, 0.9);
+  color: var(--brand-accent-1);
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  font-style: normal;
+}
+.work-image:hover i { opacity: 1; }
+
+.work-text {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.work-info h3 { margin: 0 0 4px; font-size: 15px; color: var(--text-main); }
+.work-info p { margin: 0; color: var(--text-muted); font-size: 12px; }
+.work-index { font-family: monospace; color: var(--brand-accent-1); font-size: 12px; }
+
+/* --- LIGHTBOX --- */
+.lightbox {
+  padding: 0;
+  border: none;
+  background: transparent;
+  width: min(1000px, 95vw);
+  height: min(650px, 90vh);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.85);
+}
+
+.lightbox::backdrop {
+  background: rgba(8, 10, 13, 0.85);
+  backdrop-filter: blur(8px);
+}
+
+.lightbox-container {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  height: 100%;
+  background: var(--surface-card);
+}
+
+@media (max-width: 768px) {
+  .lightbox-container { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+}
+
+.lightbox-stage {
+  background: #090b0e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.lightbox-stage img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  cursor: grab;
+}
+
+.lightbox-controls {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  gap: 6px;
+  background: rgba(24, 27, 34, 0.9);
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 5;
+}
+
+.lightbox-controls button {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.lightbox-controls button:hover { background: var(--surface-hover); color: var(--brand-accent-1); }
+
+.lightbox-sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--surface-card);
+}
+
+.lightbox-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.lightbox-kicker {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--brand-accent-1);
+  font-weight: 700;
+}
+
+.lightbox-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+.lightbox-close:hover { color: var(--text-main); }
+
+.lightbox-info h3 { margin: 0 0 8px; font-size: 20px; color: var(--text-main); }
+.lightbox-info #lightbox-meta { color: var(--brand-accent-2); font-size: 13px; margin: 0 0 16px; font-weight: 500; }
+.lightbox-desc { color: var(--text-muted); font-size: 13px; line-height: 1.5; margin: 0; }
+
+.lightbox-nav-footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.lightbox-nav-footer button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-main);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.lightbox-nav-footer button:hover {
+  border-color: var(--brand-accent-1);
+  background: var(--surface-hover);
+}
+
+footer {
+  padding: 30px 0 50px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/*======================================
+            VIDEOJUEGOS
+======================================*/
+
+.game-view{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.game-banner{
+  width:100%;
+  border-radius:12px;
+  box-shadow:0 12px 30px rgba(0,0,0,.45);
+}
+
+.game-button{
+  display:inline-block;
+  margin-top:18px;
+  padding:14px 24px;
+  border-radius:12px;
+  background:linear-gradient(135deg,var(--brand-accent-1),var(--brand-accent-2));
+  color:white;
+  font-weight:700;
+  text-decoration:none;
+  transition:.25s;
+}
+
+.game-button:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.1);
+}
+
+.lightbox-desc ul{
+  margin-top:10px;
+  padding-left:18px;
+}
+
+.lightbox-desc li{
+  margin-bottom:6px;
+}
+
+
+
+/* ===== Mejoras visuales ===== */
+
+.work-image{
+    width:100%;
+    aspect-ratio:16/9;
+    overflow:hidden;
+    position:relative;
+    background:#090b0e;
+}
+
+.work-image::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top,rgba(0,0,0,.88),rgba(0,0,0,.25),transparent);
+    opacity:.2;
+    transition:.45s;
+    z-index:2;
+}
+
+.work-card:hover .work-image::before{opacity:.95;}
+
+.work-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:transform .55s ease,filter .55s ease;
+}
+
+.work-card:hover .work-image img{
+    transform:scale(1.08);
+    filter:brightness(.8);
+}
+
+.work-image i{
+    position:absolute;
+    left:16px;
+    bottom:16px;
+    z-index:3;
+    background:rgba(15,17,21,.75);
+    backdrop-filter:blur(12px);
+    color:#fff;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.3px;
+    opacity:0;
+    transform:translateY(10px);
+    transition:.35s;
+    font-style:normal;
+}
+
+.work-card:hover .work-image i{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.work-info h3{
+    margin:0 0 6px;
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:.25px;
+    color:var(--text-main);
+}
+
+.work-info p{
+    margin:0;
+    color:var(--text-muted);
+    font-size:13px;
+    line-height:1.5;
+}
+
+.work-card{
+    animation:fadeCard .45s ease;
+}
+
+@keyframes fadeCard{
+    from{opacity:0;transform:translateY(15px);}
+    to{opacity:1;transform:none;}
+}
+
+/* ===== Estilos complementarios para la página Sobre Mí ===== */
+.experience-card {
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.experience-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(236, 72, 153, 0.3); /* Utiliza un sutil reflejo de tu brand-accent-1 */
+}
+
+.experience-card ul li {
+    margin-bottom: 8px;
+}
+
+.experience-card ul li strong {
+    color: var(--text-main);
+}
+
