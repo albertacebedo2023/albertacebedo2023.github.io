@@ -585,115 +585,59 @@ footer {
 }
 
 /* =====================================================
-   RESPONSIVE - HEADER CELULAR (NUEVO)
+   RESPONSIVE - HEADER CELULAR
 ===================================================== */
 
 @media (max-width:768px){
 
     .site-header{
-        padding:0 12px;
+        padding:12px 0;
     }
 
     .header-container{
 
-        height:70px;
+        height:auto;
 
-        display:grid;
-        grid-template-columns:auto 1fr auto;
+        display:flex;
+        flex-direction:column;
 
         align-items:center;
 
-        gap:12px;
+        gap:18px;
     }
-
-    /* Logo */
 
     .brand-logo{
 
-        gap:8px;
-
-        min-width:0;
+        justify-content:center;
+        text-align:center;
     }
-
-    .logo-img{
-
-        height:34px;
-    }
-
-    .brand-logo span{
-
-        font-size:1.7rem;
-
-        line-height:1;
-
-        white-space:normal;
-    }
-
-    /* Navegación */
 
     .main-nav{
-
-        display:flex;
 
         justify-content:center;
 
-        gap:18px;
+        flex-wrap:wrap;
 
-        min-width:0;
+        gap:24px;
     }
-
-    .main-nav a{
-
-        font-size:.95rem;
-
-        white-space:nowrap;
-    }
-
-    /* Botón */
 
     .header-actions{
 
-        width:auto;
+        width:100%;
+
+        justify-content:center;
     }
 
     .btn-contact-primary{
 
-        width:auto;
+        width:220px;
 
-        padding:10px 16px;
-
-        font-size:.9rem;
-
-        white-space:nowrap;
+        text-align:center;
     }
 
 }
 
-@media (max-width:560px){
 
-    .brand-logo span{
-
-        font-size:1.45rem;
-    }
-
-    .main-nav{
-
-        gap:12px;
-    }
-
-    .main-nav a{
-
-        font-size:.82rem;
-    }
-
-    .btn-contact-primary{
-
-        padding:9px 12px;
-
-        font-size:.82rem;
-    }
-
-}
 /* =====================================================
    RESPONSIVE - GALERÍA
 ===================================================== */
