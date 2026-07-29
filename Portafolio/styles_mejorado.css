@@ -535,3 +535,10 @@ footer {
     color: var(--text-main);
 }
 
+#lightbox-media-wrapper iframe{
+    width:100%;
+    height:100%;
+    border:none;
+    border-radius:12px;
+    display:block;
+}
